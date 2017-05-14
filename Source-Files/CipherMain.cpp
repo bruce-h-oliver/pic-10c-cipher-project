@@ -5,6 +5,10 @@
 #include <unordered_map>
 
 #include "Translator.h"
+#include "Breaker.h"
+
+// Initialize frequency chart
+std::unordered_map<std::string, int> Breaker::frequencyChart;
 
 int main() {
 

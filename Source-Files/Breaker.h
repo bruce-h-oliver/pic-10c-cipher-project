@@ -22,6 +22,11 @@ public:
 	*/
 	Breaker(const std::string& ciphertext);
 
+	/** setFreq
+	Sets the frequency dictionary's values by reading in from a specified file.
+	*/
+	std::ifstream& setFreq(std::ifstream& freqStream);
+
 	/** setText
 	Sets cipher text to the inputted string
 	*/
@@ -38,12 +43,20 @@ public:
 	void swapVals();
 
 	/** score
-	Compares the deciphered text to the frequency chart and returns its score, based on how many times the items appeared in the candidate text.
+	Deciphers ciphertext based on current key, compares that to the frequency chart, returns its score.
+	// Score is based on how many times the items appeared in the candidate text.
 	*/
-	int score();
+	long long score();
+
+	// Print freqDict
+	// FOR DEBUGGING
+	void printFreq() {
+		for (auto iter = frequencyChart.begin(); iter != frequencyChart.end(); ++iter)
+			std::cout << iter->first << ", " << iter->second << "\n";
+	}
 
 private:
-	static std::unordered_map<std::string, int> frequencyChart;
+	static std::unordered_map<std::string, long long> frequencyChart;
 
 	std::string ciphertext;
 	Translator key;

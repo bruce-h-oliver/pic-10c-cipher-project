@@ -2,15 +2,20 @@
 #include <string>
 #include <cctype>
 #include <algorithm>
+#include <fstream>
 #include <unordered_map>
 
 #include "Translator.h"
 #include "Breaker.h"
 
-// Initialize frequency chart
-std::unordered_map<std::string, int> Breaker::frequencyChart;
-
 int main() {
+	
+	// Create Breaker
+	Breaker codeBreaker;
+	// Create ifstream, opening bigram-freq.txt
+	std::ifstream freqStream("bigram-freq.txt");
+	// Set frequency dictionary
+	codeBreaker.setFreq(freqStream);
 
 	Translator newDict("bcdefghijklmnopqrstuvwxyza");
 	newDict.printCipher(std::cout);

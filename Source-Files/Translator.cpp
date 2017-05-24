@@ -29,8 +29,8 @@ std::string cleanString(const std::string& inputStr) {
 Translator::Translator() 
 {
 	for (unsigned int i = 0; i < 26; ++i) {
-		cipherDict.insert(std::make_pair('A' + i, 'A' + i));
-		reverseDict.insert(std::make_pair('A' + i, 'A' + i));
+		encryptDict.insert(std::make_pair('A' + i, 'A' + i));
+		decryptDict.insert(std::make_pair('A' + i, 'A' + i));
 	}
 }
 
@@ -52,7 +52,7 @@ void Translator::setCipher(const std::string& newCipher)
 	// Add all characters from cleanCipher into their slots in order
 	unsigned int index = 0;
 	for (; index < cleanCipher.size(); ++index) {
-		cipherDict['A' + index] = cleanCipher[index];
+		encryptDict['A' + index] = cleanCipher[index];
 	}
 	// If we didn't assign over everything, pick up where we left off and add the remaining characters in alphabetical order
 	if (index < 25) {
@@ -66,13 +66,13 @@ void Translator::setCipher(const std::string& newCipher)
 				++newChar;
 			}
 			// Add newChar to the current index and increment it
-			cipherDict['A' + index] = newChar++;
+			encryptDict['A' + index] = newChar++;
 		}
 	}
 
-	// Update reverseDict
-	for (auto iter = cipherDict.begin(); iter != cipherDict.end(); ++iter) {
-		reverseDict[iter->second] = iter->first;
+	// Update decryptDict
+	for (auto iter = encryptDict.begin(); iter != encryptDict.end(); ++iter) {
+		decryptDict[iter->second] = iter->first;
 	}
 
 	return;
@@ -83,7 +83,7 @@ std::ostream& Translator::printCipher(std::ostream& out) const {
 	for (char c = 'A'; c <= 'Z'; ++c) {
 		out << c;
 	}
-	out << "\nEncrypted: " << getCipher();
+	out << "\nEncrypted: " << getCipher() << "\n";
 
 	return out;
 }
@@ -92,7 +92,7 @@ std::string Translator::getCipher() const {
 	std::string cipher;
 	// Add encrypted characters to the string in alphabetical order
 	for (char c = 'A'; c <= 'Z'; ++c)
-		cipher += cipherDict.at(c);
+		cipher += encryptDict.at(c);
 	return cipher;
 }
 
@@ -104,7 +104,7 @@ std::string Translator::encrypt(const std::string& plaintext) const {
 	for (auto iter = encrypted.begin(); iter != encrypted.end(); ++iter) {
 		// Set the character to the associated value in the dictionary
 		if (*iter != ' ' && *iter != '\0')
-			*iter = cipherDict.at(*iter);
+			*iter = encryptDict.at(*iter);
 		else
 			continue;
 	}
@@ -120,7 +120,7 @@ std::string Translator::decrypt(const std::string& ciphertext) const {
 	for (auto iter = decrypted.begin(); iter != decrypted.end(); ++iter) {
 		// Set the character to the associated value in the reverse dictionary
 		if (*iter != ' ' && *iter != '\0')
-			*iter = reverseDict.at(*iter);
+			*iter = decryptDict.at(*iter);
 		else
 			continue;
 	}

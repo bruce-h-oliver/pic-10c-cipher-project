@@ -19,7 +19,7 @@ public:
 	/** Cipher Constructor
 	Constructs a translator with all 26 characters (A-Z) mapped to the indicated characters. 
 	If the passed-in string has fewer than 26 characters, the unmapped values will be mapped to the remaining characters in alphabetical order.
-	Reassigns the values in reverseDict to the associated keys in cipherDict
+	Reassigns the values in decryptDict to the associated keys in encryptDict
 	*/
 	Translator(const std::string& cipher);
 
@@ -49,13 +49,13 @@ public:
 	std::string encrypt(const std::string& plaintext) const;
 
 	/** decrypt
-	Decrypts a passed-in encrypted string by reversing the cipher values stored in cipherDict.
+	Decrypts a passed-in encrypted string by reversing the cipher values stored in encryptDict.
 	*/
 	std::string decrypt(const std::string& ciphertext) const;
 
-private:
-	std::unordered_map<char, char> cipherDict;
-	std::unordered_map<char, char> reverseDict;
+protected:
+	std::unordered_map<char, char> encryptDict;
+	std::unordered_map<char, char> decryptDict;
 };
 
 #endif

@@ -8,6 +8,7 @@
 
 // ********************************************
 /* HELPER FUNCTION DEFINITIONS */
+// ********************************************
 
 // Cleans a string of any character that isn't an alphabetical character or a space, then uppercases every character.
 std::string cleanString(const std::string& inputStr) {
@@ -60,7 +61,7 @@ void Translator::setCipher(const std::string& newCipher)
 		char newChar = 'A';
 		// Loop through remaining indeces
 		for (; index < 26; ++index) {
-			// While our character is still in the original string string
+			// While our character is still in the original string
 			while (std::find(cleanCipher.begin(), cleanCipher.end(), newChar) != cleanCipher.end()) {
 				// Keep incrementing newChar
 				++newChar;
@@ -89,7 +90,7 @@ std::ostream& Translator::printCipher(std::ostream& out) const {
 }
 
 std::string Translator::getCipher() const {
-	std::string cipher;
+	std::string cipher = "";
 	// Add encrypted characters to the string in alphabetical order
 	for (char c = 'A'; c <= 'Z'; ++c)
 		cipher += encryptDict.at(c);

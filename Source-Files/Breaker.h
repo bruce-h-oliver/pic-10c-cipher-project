@@ -45,14 +45,20 @@ public:
 
 	/** score
 	Deciphers ciphertext based on current key, compares that to the frequency chart, returns its score.
-	// Score is based on how many times the items appeared in the candidate text.
+	Score is based on how many times the items appeared in the candidate text.
 	*/
 	long long score();
 
-	/** breakCipher
-	For a specified number of trials, performs a random walk through possible ciphers, scoring each one and returning the Translator with the best score.
+	/** singleFreqAttack
+	Uses frequencies of single letters and substitutes highest frequency letter in the ciphertext with highest frequency letter in English, second highest...
 	*/
-	Translator breakCipher(size_t trials);
+	void singleFreqAttack();
+
+	/** breakCipher
+	For a specified number of trials, performs a random walk through possible ciphers, 
+	scoring each one and returning the key (as a 26-char string) with the best score.
+	*/
+	std::string breakCipher(std::string toDecode, size_t trials);
 
 	// Print freqDict
 	// FOR DEBUGGING

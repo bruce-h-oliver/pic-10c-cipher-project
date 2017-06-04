@@ -41,9 +41,10 @@ int main() {
 	// DECRYPTION TIME BOYS
 
 	std::cout << "\n\nDECRYPTION TIME!\n----------------------------------\n";
-	std::string goalString = "Call me Ishmael. Some years ago, never mind how long precisely, having little or no money in my purse, and nothing particular to interest me on shore, I thought I would sail about a little and see the watery part of the world. It is a way I have of driving off the spleen and regulating the circulation. Whenever I find myself growing grim about the mouth; whenever it is a damp, drizzly November in my soul;";
+	std::string goalString = "Call me Ishmael. Some years ago, never mind how long precisely, having little or no money in my purse, and nothing particular to interest me on shore, I thought I would sail about a little and see the watery part of the world."; /*It is a way I have of driving off the spleen and regulating the circulation. Whenever I find myself growing grim about the mouth; whenever it is a damp, drizzly November in my soul; ";*/
+	//std::string goalString = "The quick brown fox jumped over the lazy dogs the quick brown fox jumped over the lazy dogs the quick brown fox jumped over the lazy dogs the quick brown fox jumped over the lazy dogs.";
 	std::cout << "Goal string: " << cleanString(goalString) << "\n\n";
-	Translator encryptor("bulshited");
+	Translator encryptor("kanlbcgydosxuwhpjermqtizvf");
 	std::string encryptedString = encryptor.encrypt(goalString);
 	std::cout << "THE ENCRYPTION: \n";
 	encryptor.printCipher(std::cout);

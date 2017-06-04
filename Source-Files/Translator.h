@@ -31,7 +31,7 @@ public:
 	/** setCipher
 	Changes the translator's cipher to match the indicated string
 	*/
-	void setCipher(const std::string& newCipher);
+	void setCipher(const std::string& newCipher = "");
 
 	/** printCipher
 	Prints the translator's cipher to the passed-in ostream object.
@@ -54,8 +54,8 @@ public:
 	std::string decrypt(const std::string& ciphertext) const;
 
 protected:
-	std::unordered_map<char, char> encryptDict;
-	std::unordered_map<char, char> decryptDict;
+	std::unordered_map<char, char> encryptDict; // Dictionary which maps original_char (key) -> cipher_char (value)
+	std::unordered_map<char, char> decryptDict; // Dictionary which maps cipher_char (key) -> original_char (value)
 };
 
 #endif

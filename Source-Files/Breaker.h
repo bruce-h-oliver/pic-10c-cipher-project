@@ -6,8 +6,11 @@
 #include<cctype>
 #include<algorithm>
 #include<unordered_map>
+#include<map>
 #include<cstdlib>
 #include<ctime>
+#include<cmath>
+#include<vector>
 
 #include "Translator.h"
 
@@ -47,7 +50,7 @@ public:
 	Deciphers ciphertext based on current key, compares that to the frequency chart, returns its score.
 	Score is based on how many times the items appeared in the candidate text.
 	*/
-	long long score();
+	double score();
 
 	/** singleFreqAttack
 	Uses frequencies of single letters and substitutes highest frequency letter in the ciphertext with highest frequency letter in English, second highest...
@@ -68,7 +71,7 @@ public:
 	}
 
 private:
-	static std::unordered_map<std::string, long long> frequencyChart;
+	static std::unordered_map<std::string, double> frequencyChart;
 	std::string ciphertext;
 	std::string bestCipher; // Cipher, as a string, that has scored the highest so far
 };

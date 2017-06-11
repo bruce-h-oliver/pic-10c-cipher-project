@@ -40,6 +40,58 @@ Translator::Translator(const std::string& cipher)
 	this->setCipher(cipher);
 }
 
+Translator::Translator(int code) {
+
+	/* RANDOM CIPHER CODE */
+	if (code <= 0 || code >= 26) {
+		// Create a vector of all 26 letters
+		std::vector<char> alphabet;
+		for (char ch = 'A'; ch <= 'Z'; ++ch) {
+			alphabet.push_back(ch);
+		}
+		// Create a string that will be our cipher
+		std::string randCipher("");
+
+		// Once per letter,
+		for (size_t i = 0; i < 26; ++i) {
+			// Get a random index for the vector
+			size_t randIndex = std::rand() % 26;
+			// While that index is '0', keep trying
+			while (alphabet[randIndex] == '0')
+				randIndex = std::rand() % 26;
+			// If it's not '0', add it to our randCipher string and replace it with '0' in the vector
+			if (alphabet[randIndex] != '0') {
+				randCipher.push_back(alphabet[randIndex]);
+				alphabet[randIndex] = '0';
+			}
+		}
+
+		// Set randCipher as the cipher
+		setCipher(randCipher);
+	}
+
+	/* CAESAR CIPHER CODE */
+	else if (code >= 1 && code <= 25) {
+		// Set our starting character
+		char start = 'A' + code;
+		// String that will be our cipher
+		std::string caesarCipher("");
+
+		// Add characters starting from starting character until we hit Z -- we copy start because we need it later
+		for (char ch = start; ch <= 'Z'; ++ch) {
+			caesarCipher.push_back(ch);
+		}
+
+		// Add the rest of the characters to the end, from A until the letter before start
+		for (char ch = 'A'; ch < start; ++ch) {
+			caesarCipher.push_back(ch);
+		}
+
+		// Set the string as the cipher
+		setCipher(caesarCipher);
+	}
+}
+
 void Translator::setCipher(const std::string& newCipher)
 {
 	// Clean cleanCipher to remove punctuation, uppercase everything

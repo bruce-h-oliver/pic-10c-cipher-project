@@ -31,9 +31,9 @@ Breaker::Breaker(const std::string& ciphertext, const std::string& cipher)
 
 // Sets frequency dictionary from a passed-in file stream, in format PAIR[space]FREQUENCY
 std::ifstream& Breaker::setFreq(std::ifstream& freqStream) {
-	frequencyChart.reserve(400000);
+	frequencyChart.reserve(260000);
 	if (freqStream) {
-		std::cout << "File was found.\n";
+		std::cout << "Compiling English frequency data set... Please wait...\n";
 		while (!freqStream.eof()) {
 			std::string ngram;
 			double freq;
@@ -47,15 +47,15 @@ std::ifstream& Breaker::setFreq(std::ifstream& freqStream) {
 		for (const auto& entry : frequencyChart)
 			nGramSum += entry.second;
 
-		std::cout << "Total sum: " << nGramSum << "\n";
-
 		// Next, iterate through and change all frequencies to their log probabilities: log(freq/total)
 		for (auto iter = frequencyChart.begin(); iter != frequencyChart.end(); ++iter) {
 			iter->second = log(iter->second / nGramSum);
 		}
+		std::cout << "Done.\n";
 	}
-	else
+	else {
 		std::cout << "FILE NOT FOUND\n";
+	}
 	return freqStream;
 }
 

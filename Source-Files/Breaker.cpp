@@ -32,11 +32,11 @@ Breaker::Breaker(const std::string& ciphertext, const std::string& cipher)
 // Sets frequency dictionary from a passed-in file stream, in format PAIR[space]FREQUENCY
 std::ifstream& Breaker::setFreq(std::ifstream& freqStream) {
 	frequencyChart.reserve(260000);
+	std::string ngram;
+	double freq;
 	if (freqStream) {
 		std::cout << "Compiling English frequency data set... Please wait...\n";
 		while (!freqStream.eof()) {
-			std::string ngram;
-			double freq;
 			freqStream >> ngram >> freq;
 			frequencyChart[ngram] = freq;
 		}
@@ -143,13 +143,6 @@ void Breaker::singleFreqAttack() {
 		engMap.insert( std::make_pair(theFreq, theChar) );
 	}
 
-	/*
-	std::cout << "English Frequency Map: {\n";
-	for (auto iter = engMap.rbegin(); iter != engMap.rend(); ++iter)
-	std::cout << "Frequency: " << iter->first << ", Character: " << iter->second << "\n";
-	std::cout << "}\n";	
-	*/
-
 	// For each character in the alphabet
 	for (char ch = 'A'; ch <= 'Z'; ++ch) {
 		// Count that letter's frequency in the ciphertext
@@ -161,13 +154,6 @@ void Breaker::singleFreqAttack() {
 		// Add that letter to the text multimap, sorted by its frequency
 		textMap.insert(std::make_pair(letFreq, ch));
 	}
-
-	/*
-	std::cout << "Cipher Text Frequency Map: {\n";
-	for (auto iter = textMap.rbegin(); iter != textMap.rend(); ++iter)
-		std::cout << "Frequency: " << iter->first << ", Character: " << iter->second << "\n";
-	std::cout << "}\n";
-	*/
 
 	// Go through both maps at the same time, in order from biggest to smallest (i.e. using r-iterators)
 	auto engIter = engMap.rbegin();

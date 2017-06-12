@@ -28,13 +28,14 @@ int main() {
 	char ownStringChar = '0';
 	char preselectedChoice = '0';
 	char cipherChoice = '0';
+	char tryAgain = 'y';
 
 	// Other UI variables
 	int caesarShift = 0;
 	std::string userCipher = "";
 	size_t numTrials = 5000;
 
-	// Possible strings to decrypt, and final string (goalString)
+	// Possible strings to decrypt, and final string (plainString)
 	std::string userEncrypted = "";
 	std::string userPlain = "";
 
@@ -146,48 +147,59 @@ int main() {
 
 	}
 
-	std::cout << "\nEncrypted string: " << encryptedString << "\n\n";
+	while (tryAgain != 'n') {
 
-	// Choosing number of trials
-	std::cout << "For best results, we recommend running the decryptor for 4,000-8,000 trials.\n";
-	std::cout << "Please input the number of trials you would like to run: ";
-	std::cin >> numTrials;
-	std::cout << "\nPress Enter to start decryption.\n";
-	std::cin.ignore();
-	std::cin.get();
-	
-	codeBreaker.breakCipher(encryptedString, numTrials);
+		std::cout << "\nEncrypted string: " << encryptedString << "\n\n";
 
-	std::string decryptedString = codeBreaker.decrypt(encryptedString);
-	std::string cleanedGoal = cleanString(plainString);
+		// Choosing number of trials
+		std::cout << "For best results, we recommend running the decryptor for 4,000-8,000 trials.\n";
+		std::cout << "Please input the number of trials you would like to run: ";
+		std::cin >> numTrials;
+		std::cout << "\nPress Enter to start decryption.\n";
+		std::cin.ignore();
+		std::cin.get();
 
-	std::cout << "\n************\n" << "The Final Decoded Text:\n" << decryptedString << "\n************\n";
-	if (alreadyEncrypted == 'a') {
-		std::cout << "Calculated Cipher: " << codeBreaker.getCipher() << "\n";
-	}
+		codeBreaker.breakCipher(encryptedString, numTrials);
 
-	if (alreadyEncrypted != 'a') {
-		std::cout << "The Real Text:\n" << cleanedGoal << "\n************\n";
-		std::cout << "Calculated Cipher: " << codeBreaker.getCipher() << "\n";
-		std::cout << "Actual Cipher:     " << encryptor.getCipher() << "\n************\n";
+		std::string decryptedString = codeBreaker.decrypt(encryptedString);
+		std::string cleanedGoal = cleanString(plainString);
 
-		double numCorrect = 0;
-		for (size_t i = 0; i < encryptor.getCipher().size(); ++i) {
-			if (encryptor.getCipher()[i] == codeBreaker.getCipher()[i])
-				++numCorrect;
+		std::cout << "\n************\n" << "The Final Decoded Text:\n" << decryptedString << "\n************\n";
+		if (alreadyEncrypted == 'a') {
+			std::cout << "Calculated Cipher: " << codeBreaker.getCipher() << "\n";
 		}
-		double ratioCorrect = numCorrect / 26.0;
-		std::cout << "Correctly Decoded Letters: " << static_cast<int>(numCorrect) << "\n";
-		std::cout << "Ratio Correct (Cipher): " << ratioCorrect << "\n";
 
-		double textScore = 0;
-		for (size_t i = 0; i < cleanedGoal.size(); ++i) {
-			if (cleanedGoal[i] == decryptedString[i]) {
-				++textScore;
+		// Display stats if they encrypted a plain string at the beginning
+		if (alreadyEncrypted != 'a') {
+			std::cout << "The Real Text:\n" << cleanedGoal << "\n************\n";
+			std::cout << "Calculated Cipher: " << codeBreaker.getCipher() << "\n";
+			std::cout << "Actual Cipher:     " << encryptor.getCipher() << "\n************\n";
+
+			// Calculate number of letters correctly decoded, based on original cipher
+			double numCorrect = 0;
+			for (size_t i = 0; i < encryptor.getCipher().size(); ++i) {
+				if (encryptor.getCipher()[i] == codeBreaker.getCipher()[i])
+					++numCorrect;
 			}
+			double ratioCorrect = numCorrect / 26.0;
+			std::cout << "Correctly Decoded Letters: " << static_cast<int>(numCorrect) << "\n";
+			std::cout << "Ratio Correct (Cipher): " << ratioCorrect << "\n";
+
+			// Calculate how much of the text matched 
+			// (useful if certain characters never appeared in the text -- they won't have been decoded correctly)
+			double textScore = 0;
+			for (size_t i = 0; i < cleanedGoal.size(); ++i) {
+				if (cleanedGoal[i] == decryptedString[i]) {
+					++textScore;
+				}
+			}
+			double maxTextScore = cleanedGoal.size();
+			std::cout << "Text Characters Matching: " << textScore << "/" << maxTextScore << " = " << (textScore / maxTextScore) * 100.0 << "%\n";
 		}
-		double maxTextScore = cleanedGoal.size();
-		std::cout << "Text Characters Matching: " << textScore << "/" << maxTextScore << " = " << (textScore / maxTextScore) * 100.0 << "%\n";
+
+		// Ask if they want to try again
+		std::cout << "Would you like to run the decryption again? [y/n]: ";
+		std::cin >> tryAgain;
 	}
 	
 

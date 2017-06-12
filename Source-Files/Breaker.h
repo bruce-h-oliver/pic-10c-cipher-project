@@ -48,8 +48,7 @@ public:
 	void setText(const std::string& newText);
 
 	/** swapVals
-	Swaps two randomly chosen values in the key.
-	Only 
+	Swaps two randomly chosen values in the cipher, updating both encryptDict and decryptDict.
 
 	Params: None.
 	Returns: None.
@@ -57,7 +56,7 @@ public:
 	void swapVals();
 
 	/** score
-	Deciphers ciphertext based on current key, compares that to the frequency chart, and returns its score.
+	Deciphers ciphertext based on current cipher, compares that to the frequency chart, and returns its score.
 	Score is used as a measure of similarity to English text. The higher the score (closer to 0), the more the text resembles English.
 	Score is based on how many times the items appeared in the candidate text, in the form of the log of its probability. Will always be negative.
 
@@ -69,7 +68,7 @@ public:
 	/** singleFreqAttack
 	Uses frequencies of single letters and substitutes highest frequency letter in the ciphertext with highest frequency letter in English, 
 	second highest with second highest, and so on.
-	Only modifies the member variables of the Breaker (the encryptDict and decryptDict from Translator).
+	Only modifies the encryptDict and decryptDict from Translator.
 	*/
 	void singleFreqAttack();
 
